@@ -30,7 +30,7 @@ export default function Home() {
   const isProcessed = false
 
   return (
-    <main className="m-auto flex min-h-screen max-w-7xl flex-col space-y-6 bg-white p-6 shadow-md">
+    <main className="m-auto flex min-h-screen max-w-7xl flex-col space-y-6 bg-white p-6">
       <FileUpload />
       {keywords.length === 0 ? (
         <NoKeywordsMessage />
