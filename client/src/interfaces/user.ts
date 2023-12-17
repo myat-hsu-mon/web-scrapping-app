@@ -10,3 +10,8 @@ export interface SignUpProps {
   password: string
   confirmPassword: string
 }
+
+export interface SignInProps {
+  email: string
+  password: string
+}

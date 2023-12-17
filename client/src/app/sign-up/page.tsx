@@ -1,11 +1,10 @@
 'use client'
 
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Button } from '@/components/Button'
+import { Button } from '@/components/common/Button'
 import Link from 'next/link'
-import ErrorMessage from '@/components/ErrorMessage'
+import ErrorMessage from '@/components/common/ErrorMessage'
 import { SignUpProps } from '@/interfaces/user'
-
 
 export default function SignUpPage() {
   const {
