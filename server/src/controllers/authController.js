@@ -131,9 +131,7 @@ const verifyToken = async (token, jwtSecretKey) => {
   try {
     return await promisify(jwt.verify)(token, jwtSecretKey);
   } catch (error) {
-    return res.status(error?.status || 500).json({
-      message: error.message,
-    });
+    return error;
   }
 };
 
