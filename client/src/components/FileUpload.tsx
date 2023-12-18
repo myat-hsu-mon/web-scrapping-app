@@ -1,7 +1,9 @@
 'use client'
+import { Dispatch, SetStateAction } from 'react'
+import { toast } from 'react-toastify'
+
 import useFileUpload from '@/hooks/useFileUpload'
 import { KeywordProps } from '@/interfaces/keywords'
-import { Dispatch, SetStateAction } from 'react'
 
 const FileUpload = ({
   setKeywords,
@@ -16,7 +18,8 @@ const FileUpload = ({
       const formData = new FormData()
       formData.append('csv', e.target.files[0])
       uploadFile(formData)
-    } catch (error) {
+    } catch (error: any) {
+      toast(error?.message)
       console.error('File upload failed:', error)
     }
   }
@@ -31,7 +34,7 @@ const FileUpload = ({
           type="file"
           id="file"
           accept=".csv"
-          className="hidden appearance-none  rounded-t-md border border-dashed bg-gray-200 px-3 py-2 leading-tight text-gray-700 focus:outline-none"
+          className="hidden appearance-none rounded-t-md border border-dashed bg-gray-200 px-3 py-2 leading-tight text-gray-700 focus:outline-none"
           onChange={(e) => {
             handleFileChange(e)
           }}
