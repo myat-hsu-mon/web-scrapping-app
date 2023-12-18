@@ -3,17 +3,19 @@ import clsx from 'clsx'
 export default function KeywordBadge({
   keyword,
   isActive = false,
+  handleActiveBadge,
 }: {
   keyword: string
   isActive?: boolean
+  handleActiveBadge: () => void
 }) {
   return (
     <li
+      onClick={handleActiveBadge}
       className={clsx(
-        'whitespace-nowrap rounded-md border border-cyan-500 px-2 py-1 text-sm',
+        'cursor-pointer rounded-md bg-cyan-500 px-3 py-2 text-sm text-white',
         {
-          'bg-cyan-500 text-white': isActive,
-          'bg-cyan-50 text-gray-900': !isActive,
+          'bg-cyan-800': isActive,
         },
       )}
     >
