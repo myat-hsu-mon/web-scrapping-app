@@ -14,15 +14,15 @@ scrapeWebData = async (keyword) => {
     const $ = cheerio.load(updatedHtml);
 
     // Extract data using Cheerio selectors
-    const resultStats = $("#result-stats").text();
-    const totalNumberOfLinks = $("cite.tjvcx.GvPZzd.cHaqb").length;
-    const totalNumberOfAdsWords = $(".uEierd").length;
+    const searchResults = $("#result-stats").text();
+    const totalLinks = $("cite.tjvcx.GvPZzd.cHaqb").length;
+    const totalAdWords = $(".uEierd").length;
 
     return {
-      resultStats,
-      totalNumberOfAdsWords,
-      totalNumberOfLinks,
-    //   htmlCode: updatedHtml,
+      searchResults,
+      totalAdWords,
+      totalLinks,
+      htmlCode: updatedHtml,
     };
   } catch (error) {
     console.error("Error:", error.message);
