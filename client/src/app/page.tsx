@@ -1,71 +1,24 @@
+'use client'
 import FileUpload from '@/components/FileUpload'
 import KeywordsList from '@/components/keywords/KeywordsList'
 import NoKeywordsMessage from '@/components/keywords/NoKeywordsMessage'
 import HTMLRender from '@/components/searchResults/HTMLRender'
 import ProcessingResultsMessage from '@/components/searchResults/ProcessingResultsMessage'
+import useSessionStorage from '@/hooks/useSessionStorage'
+import { useState } from 'react'
 
 export default function Home() {
+  const [sessionValue] = useSessionStorage('user')
+  console.log({ sessionValue })
   //useKeywords
   //getSearchResultsbyKeywordId
-  const keywords: string[] = [
-    'React',
-    'Next.js',
-    'Tailwind CSS',
-    'JavaScript',
-    'Web Development how to implement a web application',
-    'Frontend',
-    'Backend',
-    'Node.js',
-    'Express.js',
-    'MongoDB',
-    'GraphQL',
-    'REST API',
-    'Responsive Design',
-    'UI/UX Design',
-    'Single Page Application',
-    'State Management',
-    'Component Library',
-    'Code Splitting',
-    'Server-side Rendering',
-    'Progressive Web App',
-    'React',
-    'Next.js',
-    'Tailwind CSS',
-    'JavaScript',
-    'Web Development',
-    'Frontend',
-    'Backend',
-    'Node.js',
-    'Express.js',
-    'MongoDB',
-    'GraphQL',
-    'REST API',
-    'Responsive Design',
-    'UI/UX Design',
-    'Single Page Application',
-    'State Management',
-    'Component Library',
-    'Code Splitting',
-    'how to learn a new thing within one day',
-    'Server-side Rendering',
-    'Progressive Web App',
-    'how to implement a new button with custom values',
-    'Responsive Design',
-    'UI/UX Design',
-    'Single Page Application',
-    'State Management',
-    'Component Library',
-    'Code Splitting',
-    'how to learn a new thing within one day',
-    'Server-side Rendering',
-    'Progressive Web App',
-    'how to implement a new button with custom values',
-  ]
+
   const isProcessed = true
+  const [keywords, setKeywords] = useState<string[]>([])
 
   return (
     <main className="m-auto flex min-h-screen max-w-7xl flex-col space-y-6 bg-white p-6">
-      <FileUpload />
+      <FileUpload setKeywords={setKeywords} />
       {keywords.length === 0 ? (
         <NoKeywordsMessage />
       ) : (
