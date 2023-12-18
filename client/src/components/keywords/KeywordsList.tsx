@@ -20,7 +20,7 @@ const KeywordsList = ({
 
   return (
     <div className="max-h-64 overflow-y-auto rounded-md border border-gray-200 p-6">
-      <ul className="flex flex-wrap gap-2">
+      <ul className="flex flex-wrap gap-2" data-testid="keywords-list">
         {keywords.map((keyword, index) => (
           <KeywordBadge
             handleActiveBadge={() => handleActiveBadge(keyword, index)}

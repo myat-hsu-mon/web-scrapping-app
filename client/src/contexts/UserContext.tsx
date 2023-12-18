@@ -15,7 +15,7 @@ interface UserContextProps {
   clearUserData: () => void
 }
 
-const UserContext = createContext<UserContextProps | undefined>(undefined)
+export const UserContext = createContext<UserContextProps | undefined>(undefined)
 
 interface UserProviderProps {
   children: ReactNode
