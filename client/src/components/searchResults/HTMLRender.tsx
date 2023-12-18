@@ -33,5 +33,5 @@ const htmlString = `
     </html>
   `
 export default function HTMLRender() {
-  return <div dangerouslySetInnerHTML={{ __html: htmlString }} className='border border-cyan-500 rounded-md p-6'></div>
+  return <div dangerouslySetInnerHTML={{ __html: htmlString }} className='border border-gray-200 rounded-md p-6'></div>
 }

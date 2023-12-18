@@ -23,7 +23,7 @@ export default function SignInPage() {
     <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-cyan-900">
-          Sign Up
+          Sign In
         </h2>
       </div>
 
@@ -48,7 +48,8 @@ export default function SignInPage() {
                     },
                   })}
                   type="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-cyan-900 shadow-sm ring-1 ring-inset ring-cyan-300 placeholder:text-cyan-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
+                  autoComplete='off'
+                  className="block w-full rounded-md border-0 bg-gray-100 py-1.5 text-cyan-900 shadow-sm placeholder:text-cyan-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
                 />
                 <ErrorMessage message={errors.email?.message} />
               </div>
@@ -72,7 +73,7 @@ export default function SignInPage() {
                     },
                   })}
                   type="password"
-                  className="block w-full rounded-md border-0 py-1.5 text-cyan-900 shadow-sm ring-1 ring-inset ring-cyan-300 placeholder:text-cyan-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 bg-gray-100 py-1.5 text-cyan-900 shadow-sm placeholder:text-cyan-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
                 />
                 <ErrorMessage message={errors.password?.message} />
               </div>
