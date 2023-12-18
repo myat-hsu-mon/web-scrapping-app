@@ -2,7 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const { connect } = require("./connection");
 const { scrapeWebData } = require("../web-scrape/scrape");
-// const { createResult } = require("../controller/resultController");
+const { saveResult } = require("../controllers/resultController");
 
 async function consumeQueue() {
   const { channel } = await connect();
@@ -14,17 +14,11 @@ async function consumeQueue() {
 
   channel.consume(queueName, async (message) => {
     if (message !== null) {
-      console.log(
-        "message content:",
-        JSON.parse(message.content.toString()).name
-      );
       const { name, keywordId } = JSON.parse(message.content.toString());
       const data = await scrapeWebData(name);
-      console.log({ keywordId });
-      console.log("scrap data:", data);
-      //createResult() call {keywordId, ...data}
-      //
-      //   console.log(`Received message: ${message.content.toString()}`);
+      // console.log("scrap data:", data);
+      saveResult({ keywordId, ...data });
+      console.log(`Received message: ${message.content.toString()}`);
       channel.ack(message);
     }
   });
