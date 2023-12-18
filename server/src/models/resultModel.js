@@ -8,11 +8,11 @@ Result.init(
     keywordId: DataTypes.INTEGER,
     totalAdWords: DataTypes.INTEGER,
     searchResults: DataTypes.STRING,
-    htmlCode: DataTypes.STRING,
+    htmlCode: DataTypes.TEXT,
   },
   { sequelize, modelName: "result" }
 );
 
-Result.sync({ force: true });
+// Result.sync({ force: true });
 
 module.exports = Result;

@@ -12,11 +12,10 @@ async function consumeQueue() {
 
   channel.consume(queueName, async (message) => {
     if (message !== null) {
-      const { name, keywordId } = JSON.parse(message.content.toString());
+      const { name, id } = JSON.parse(message.content.toString());
       const data = await scrapeWebData(name);
-      // console.log("scrap data:", data);
       console.log(`Received message: ${message.content.toString()}`);
-      // saveResult({ keywordId, ...data });
+      saveResult({ keywordId: id, ...data });
       channel.ack(message);
     }
   });

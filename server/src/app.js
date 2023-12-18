@@ -5,12 +5,13 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const sequelize = require("./db.js");
+console.log({ username: process.env.PORT });
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 const authRoutes = require("./routes/authRoutes.js");
-const userRoutes = require("./routes/userRoutes.js")
+const userRoutes = require("./routes/userRoutes.js");
 const keywordRoutes = require("./routes/keywordRoutes.js");
 const uploadRoutes = require("./routes/uploadRoutes.js");
 
@@ -27,7 +28,7 @@ sequelize
   .catch((err) => console.log("DB Connection Error: ", err));
 
 app.use("/api/v1/auths", authRoutes);
-app.use("/api/v1/users", protect, userRoutes)
+app.use("/api/v1/users", protect, userRoutes);
 app.use("/api/v1/keywords", protect, keywordRoutes);
 app.use("/api/v1/uploads", protect, uploadRoutes);
 

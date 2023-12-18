@@ -40,7 +40,7 @@ const saveKeyword = async (user, keywords) => {
   );
   for (const keyword of newKeywords) {
     messageKeywords.push({
-      keywordId: keyword.id,
+      id: keyword.id,
       name: keyword.name,
     });
   }
