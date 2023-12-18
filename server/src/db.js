@@ -2,12 +2,16 @@ const { Sequelize } = require("sequelize");
 
 const username = process.env.POSTGRES_USERNAME;
 const password = process.env.POSTGRES_PASSWORD;
-const database = process.env.POSTGRES_DB;
+
+console.log({ username, password });
+// const sequelize = new Sequelize(
+//   `postgres://myat:postgres@localhost:5432/webscraping`
+// );
 
 const sequelize = new Sequelize({
-  database,
-  username,
-  password,
+  database: "webscraping",
+  username: "myat",
+  password: "postgres",
   host: "localhost",
   dialect: "postgres",
 });

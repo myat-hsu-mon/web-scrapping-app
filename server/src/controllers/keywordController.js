@@ -14,11 +14,11 @@ const getKeywordByIdWithResult = async (req, res) => {
       message: "Unauthorized",
     });
   }
-  const result = await Result.findOne({ keywordId: id });
-  keyword.result = result;
+  let result = await Result.findOne({ where: { keywordId: id } });
+  const parsedKeyword = JSON.parse(JSON.stringify(keyword));
   return res.status(200).json({
     message: "keyword detail with result",
-    data: keyword,
+    data: { result, ...parsedKeyword },
   });
 };
 
