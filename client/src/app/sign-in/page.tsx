@@ -1,10 +1,12 @@
 'use client'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { Button } from '@/components/common/Button'
 import ErrorMessage from '@/components/common/ErrorMessage'
 import { SignInProps } from '@/interfaces/user'
+import useSignIn from '@/hooks/useSignIn'
 
 export default function SignInPage() {
   const {
@@ -14,9 +16,11 @@ export default function SignInPage() {
     setError,
     formState: { errors },
   } = useForm<SignInProps>()
+  const router = useRouter()
+  const { signIn, user, loading, error } = useSignIn()
 
   const onSubmit: SubmitHandler<SignInProps> = async (data) => {
-    console.log(data)
+    signIn(data)
   }
 
   return (
@@ -48,7 +52,7 @@ export default function SignInPage() {
                     },
                   })}
                   type="email"
-                  autoComplete='off'
+                  autoComplete="off"
                   className="block w-full rounded-md border-0 bg-gray-100 py-1.5 text-cyan-900 shadow-sm placeholder:text-cyan-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
                 />
                 <ErrorMessage message={errors.email?.message} />

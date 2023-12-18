@@ -1,6 +1,6 @@
 import axios, { isAxiosError } from 'axios'
 const request = axios.create({
-  baseURL: 'https://localhost:4000',
+  baseURL: 'http://localhost:4000/api/v1/',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -28,4 +28,4 @@ request.interceptors.response.use(
   },
 )
 
-export default request;
+export default request

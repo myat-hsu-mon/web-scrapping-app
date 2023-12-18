@@ -5,6 +5,7 @@ import { Button } from '@/components/common/Button'
 import Link from 'next/link'
 import ErrorMessage from '@/components/common/ErrorMessage'
 import { SignUpProps } from '@/interfaces/user'
+import useSignUp from '@/hooks/useSignUp'
 
 export default function SignUpPage() {
   const {
@@ -14,9 +15,11 @@ export default function SignUpPage() {
     setError,
     formState: { errors },
   } = useForm<SignUpProps>()
+  const { signUp, user, loading, error } = useSignUp()
 
   const onSubmit: SubmitHandler<SignUpProps> = async (data) => {
-    console.log(data)
+    const { name, email, password } = data
+    signUp({ name, email, password })
   }
 
   const validatePasswordMatch = (value: string) => {
