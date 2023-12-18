@@ -5,7 +5,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const sequelize = require("./db.js");
-console.log({ username: process.env.PORT });
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -33,7 +32,7 @@ app.use("/api/v1/keywords", protect, keywordRoutes);
 app.use("/api/v1/uploads", protect, uploadRoutes);
 
 app.listen(port, () => {
-  console.log(`App is listening...`);
+  console.log(`App is listening on port ${port}`);
 });
 
 module.exports = app;
