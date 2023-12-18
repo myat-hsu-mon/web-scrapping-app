@@ -1,5 +1,3 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
 const { connect } = require("./connection");
 const { scrapeWebData } = require("../web-scrape/scrape");
 const { saveResult } = require("../controllers/resultController");
@@ -17,8 +15,8 @@ async function consumeQueue() {
       const { name, keywordId } = JSON.parse(message.content.toString());
       const data = await scrapeWebData(name);
       // console.log("scrap data:", data);
-      saveResult({ keywordId, ...data });
       console.log(`Received message: ${message.content.toString()}`);
+      // saveResult({ keywordId, ...data });
       channel.ack(message);
     }
   });

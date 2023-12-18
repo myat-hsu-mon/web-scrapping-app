@@ -3,7 +3,6 @@ const fs = require("fs");
 const { createKeyword } = require("./keywordController");
 
 const { publishToQueue } = require("../queues/publisher");
-const { scrapeWebData } = require("../web-scrape/scrape");
 
 const uploadFile = async (req, res) => {
   if (!req.file) {
@@ -17,14 +16,11 @@ const uploadFile = async (req, res) => {
       message: "keywords is more than 100",
     });
   }
-  const results = await scrapeWebData("how to make clean");
   const messageKeywords = await saveKeyword(req.user, keywords);
   pushMessageToQueue(messageKeywords);
 
-  console.log({ messageKeywords });
   return res.status(201).json({
-    data: keywords,
-    results,
+    data: messageKeywords,
     message: "file upload successfully",
   });
 };
@@ -37,11 +33,15 @@ const pushMessageToQueue = (messages) => {
 
 const saveKeyword = async (user, keywords) => {
   const messageKeywords = [];
-  for (const keyword of keywords) {
-    const newKeyword = await createKeyword({ userId: user.id, name: keyword });
+  const newKeywords = await Promise.all(
+    keywords.map((keyword) => {
+      return createKeyword({ userId: user.id, name: keyword });
+    })
+  );
+  for (const keyword of newKeywords) {
     messageKeywords.push({
-      keywordId: newKeyword.id,
-      name: newKeyword.name,
+      keywordId: keyword.id,
+      name: keyword.name,
     });
   }
   return messageKeywords;

@@ -1,6 +1,5 @@
 const User = require("../models/userModel");
-
-const keywordController = require("./keywordController");
+const Keyword = require("../models/keywordModel");
 
 const createUser = async (user) => {
   const newUser = await User.create(user);
@@ -24,8 +23,9 @@ const getKeywordsByUserId = async (req, res) => {
       message: "Unauthorized",
     });
   }
-  const user = await User.findByPk(id, { include: ["Keyword"] });
-  const keywords = user.keywords;
+  const user = await User.findByPk(id);
+  const keywords = await Keyword.findAll({ where: { userId: user.id } });
+
   return res.status(200).json({
     message: "keywords by user id",
     data: keywords,
