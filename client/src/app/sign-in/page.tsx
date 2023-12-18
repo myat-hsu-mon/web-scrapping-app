@@ -1,6 +1,5 @@
 'use client'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { Button } from '@/components/common/Button'
@@ -16,7 +15,6 @@ export default function SignInPage() {
     setError,
     formState: { errors },
   } = useForm<SignInProps>()
-  const router = useRouter()
   const { signIn, user, loading, error } = useSignIn()
 
   const onSubmit: SubmitHandler<SignInProps> = async (data) => {
