@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 import request from '../config/request'
 
@@ -8,14 +8,23 @@ interface FileUploadResult {
   error: string | null
 }
 
-const useFileUpload = (): FileUploadResult => {
+const useFileUpload = ({
+  setKeywords,
+}: {
+  setKeywords: Dispatch<SetStateAction<string[]>>
+}): FileUploadResult => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const uploadFile = async (formData: FormData) => {
     try {
       setLoading(true)
-      await request.post('/upload', formData)
+      const response = await request.post('/uploads', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      setKeywords(response.data.data)
     } catch (error: any) {
       setError(error)
     } finally {

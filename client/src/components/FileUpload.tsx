@@ -2,19 +2,26 @@
 
 import useFileUpload from '@/hooks/useFileUpload'
 import { useForm, Controller } from 'react-hook-form'
+import { Button } from './common/Button'
+import { Dispatch, SetStateAction } from 'react'
 
 interface FormData {
   file: any
 }
 
-const FileUpload = () => {
+const FileUpload = ({
+  setKeywords,
+}: {
+  setKeywords: Dispatch<SetStateAction<string[]>>
+}) => {
   const {
     control,
+    watch,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<FormData>()
-  const { uploadFile, loading, error } = useFileUpload()
+  const { uploadFile, loading, error } = useFileUpload({ setKeywords })
 
   // const onSubmit = async (data: FormData) => {
   //   // Handle file submission logic here
@@ -22,20 +29,27 @@ const FileUpload = () => {
   //   formData.append('file', data.file[0])
   // }
 
-  const handleFileChange = async (file: any) => {
+  const handleFileChange = async (e: any) => {
     try {
+      e.preventDefault()
+      console.log('inside handleFileChange')
       const formData = new FormData()
-      formData.append('file', file[0])
-      console.log('file: ', formData.get('file'))
-
+      formData.append('csv', e.target.files[0])
+      console.log('csv: ', formData.get('csv'))
       uploadFile(formData)
     } catch (error) {
       console.error('File upload failed:', error)
     }
   }
+  const onSubmit = (data: any) => {
+    console.log({ data })
+  }
 
   return (
-    <form className="mx-auto flex max-w-3xl flex-col items-center pt-9">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="mx-auto flex max-w-3xl flex-col items-center pt-9"
+    >
       <label
         htmlFor="file"
         className="cursor-pointer rounded-md border border-dashed border-gray-200 px-36 py-24"
@@ -62,7 +76,7 @@ const FileUpload = () => {
                 className="hidden appearance-none  rounded-t-md border border-dashed bg-gray-200 px-3 py-2 leading-tight text-gray-700 focus:outline-none"
                 onChange={(e) => {
                   field.onChange(e)
-                  handleFileChange(e.target.files)
+                  handleFileChange(e)
                 }}
               />
             </div>
@@ -77,6 +91,7 @@ const FileUpload = () => {
           Click to browse (CSV file)
         </div>
       </label>
+      <Button type="submit">Submit</Button>
     </form>
   )
 }
