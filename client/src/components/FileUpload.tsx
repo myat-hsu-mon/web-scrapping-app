@@ -1,7 +1,7 @@
 'use client'
 
+import useFileUpload from '@/hooks/useFileUpload'
 import { useForm, Controller } from 'react-hook-form'
-import axios from 'axios'
 
 interface FormData {
   file: any
@@ -14,19 +14,32 @@ const FileUpload = () => {
     setValue,
     formState: { errors },
   } = useForm<FormData>()
+  const { uploadFile, loading, error } = useFileUpload()
 
-  const onSubmit = async (data: FormData) => {
-    // Handle file submission logic here
-    const formData = new FormData()
-    formData.append('file', data.file[0])
+  // const onSubmit = async (data: FormData) => {
+  //   // Handle file submission logic here
+  //   const formData = new FormData()
+  //   formData.append('file', data.file[0])
+  // }
+
+  const handleFileChange = async (file: any) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', file[0])
+      console.log('file: ', formData.get('file'))
+
+      uploadFile(formData)
+    } catch (error) {
+      console.error('File upload failed:', error)
+    }
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto flex max-w-3xl flex-col items-center pt-9"
-    >
-      <label htmlFor="file" className="shadow-md">
+    <form className="mx-auto flex max-w-3xl flex-col items-center pt-9">
+      <label
+        htmlFor="file"
+        className="cursor-pointer rounded-md border border-dashed border-gray-200 px-36 py-24"
+      >
         <Controller
           name="file"
           control={control}
@@ -46,19 +59,38 @@ const FileUpload = () => {
                 type="file"
                 id="file"
                 accept=".csv"
-                className="focus:shadow-outline appearance-none rounded-t-md border border-cyan-500 px-3 py-2 leading-tight text-gray-700 focus:outline-none"
-                onChange={field.onChange}
+                className="hidden appearance-none  rounded-t-md border border-dashed bg-gray-200 px-3 py-2 leading-tight text-gray-700 focus:outline-none"
+                onChange={(e) => {
+                  field.onChange(e)
+                  handleFileChange(e.target.files)
+                }}
               />
             </div>
           )}
         />
-
-        <div className="rounded-b-md bg-cyan-500 px-6 py-2 text-center text-white">
-          Upload A CSV File For WebScrapping
+        <div className="flex items-center justify-center">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-cyan-100">
+            <FileUploadIcon />
+          </div>
+        </div>
+        <div className="mt-4 text-center text-gray-500">
+          Click to browse (CSV file)
         </div>
       </label>
     </form>
   )
 }
+
+const FileUploadIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="#06b6d4"
+    width="40px"
+    height="40px"
+    viewBox="0 0 24 24"
+  >
+    <path d="M12.71,11.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21l-2,2a1,1,0,0,0,1.42,1.42l.29-.3V17a1,1,0,0,0,2,0V14.41l.29.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42ZM20,8.94a1.31,1.31,0,0,0-.06-.27l0-.09a1.07,1.07,0,0,0-.19-.28h0l-6-6h0a1.07,1.07,0,0,0-.28-.19l-.1,0A1.1,1.1,0,0,0,13.06,2H7A3,3,0,0,0,4,5V19a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V9S20,9,20,8.94ZM14,5.41,16.59,8H15a1,1,0,0,1-1-1ZM18,19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V5A1,1,0,0,1,7,4h5V7a3,3,0,0,0,3,3h3Z" />
+  </svg>
+)
 
 export default FileUpload
