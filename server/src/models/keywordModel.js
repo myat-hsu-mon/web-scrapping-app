@@ -10,12 +10,4 @@ Keyword.init(
   { sequelize, modelName: "keyword" }
 );
 
-// (async () => {
-//   await sequelize.sync();
-//   await Keyword.create({
-//     name: "how to be creative",
-//     userId: 1,
-//   });
-// })();
-
 module.exports = Keyword;
