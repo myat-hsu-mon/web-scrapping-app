@@ -1,11 +1,12 @@
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 import request from '../config/request'
 import { setAuthorizationHeader } from '../helper/setAuthorizationHeader'
 import { SignInProps, UserProps } from '@/interfaces/user'
 
-import { useRouter } from 'next/navigation'
-import useSessionStorage from './useSessionStorage'
+import { useUser } from '@/contexts/UserContext'
 
 interface useSignInResult {
   signIn: (signInData: SignInProps) => Promise<void>
@@ -16,22 +17,24 @@ interface useSignInResult {
 
 const useSignIn = (): useSignInResult => {
   const router = useRouter()
+  const { setUserData } = useUser()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [user, setUser] = useState<UserProps | null>(null)
 
-  const [, setSessionStorage] = useSessionStorage('user')
-
   const signIn = async (signInData: SignInProps) => {
     try {
       setLoading(true)
       const { data } = await request.post('/auths/sign-in', signInData)
-      setUser(data.data.user)
-      setAuthorizationHeader(data.data.token)
-      setSessionStorage(data.data)
+      const user = data.data.user
+      const token = data.data.token
+      setUser(user)
+      setAuthorizationHeader(token)
+      setUserData(user, token)
       router.replace('/')
     } catch (error: any) {
+      toast(error)
       setError(error)
     } finally {
       setLoading(false)
