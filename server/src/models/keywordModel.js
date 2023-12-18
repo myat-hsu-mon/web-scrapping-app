@@ -10,6 +10,6 @@ Keyword.init(
   { sequelize, modelName: "keyword" }
 );
 
-// Keyword.sync({ force: true });
+Keyword.sync({ force: true });
 
 module.exports = Keyword;

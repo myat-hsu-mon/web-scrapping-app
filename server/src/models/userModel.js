@@ -11,6 +11,6 @@ User.init(
   { sequelize, modelName: "user" }
 );
 
-// User.sync({ force: true });
+User.sync({ force: true });
 
 module.exports = User;
