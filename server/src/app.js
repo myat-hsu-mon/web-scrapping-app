@@ -1,18 +1,21 @@
 const express = require("express");
-
+const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config();
 
 const sequelize = require("./db.js");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 const authRoutes = require("./routes/authRoutes.js");
 const keywordRoutes = require("./routes/keywordRoutes.js");
 const uploadRoutes = require("./routes/uploadRoutes.js");
 
+const { protect } = require("./controllers/authController.js");
+
 //middlewares
+app.use(cors());
 app.use(express.json());
 
 //database
@@ -22,9 +25,8 @@ sequelize
   .catch((err) => console.log("DB Connection Error: ", err));
 
 app.use("/api/v1/auth", authRoutes);
-// authentication middleware
-app.use("/api/v1/keywords", keywordRoutes);
-app.use("/api/v1/upload", uploadRoutes);
+app.use("/api/v1/keywords", protect, keywordRoutes);
+app.use("/api/v1/upload", protect, uploadRoutes);
 
 app.listen(port, () => {
   console.log(`App is listening...`);
