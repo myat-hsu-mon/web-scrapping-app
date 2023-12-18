@@ -3,9 +3,9 @@ const fs = require("fs");
 const { createKeyword } = require("./keywordController");
 
 const { publishToQueue } = require("../queues/publisher");
+const { scrapeWebData } = require("../web-scrape/scrape");
 
 const uploadFile = async (req, res) => {
-  console.log("uploadFile");
   if (!req.file) {
     return res.status(400).json({ message: "No file found" });
   }
@@ -17,13 +17,14 @@ const uploadFile = async (req, res) => {
       message: "keywords is more than 100",
     });
   }
-
+  const results = await scrapeWebData("how to make clean");
   const messageKeywords = await saveKeyword(req.user, keywords);
   pushMessageToQueue(messageKeywords);
 
   console.log({ messageKeywords });
   return res.status(201).json({
     data: keywords,
+    results,
     message: "file upload successfully",
   });
 };

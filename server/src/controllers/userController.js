@@ -17,11 +17,19 @@ const getUserByEmail = async (email) => {
   return user;
 };
 
-const getKeywordsByUserId = (req, res) => {
-  if (req.user.id !== req.params.id) {
-    return res.status(403).json({ message: "UnAuthorized" });
+const getKeywordsByUserId = async (req, res) => {
+  const id = parseInt(req.params.id);
+  if (req.user.id !== id) {
+    return res.status(403).json({
+      message: "Unauthorized",
+    });
   }
-  const keywords = keywordController.getKeywordByUserId(req.params.id);
+  const user = await User.findByPk(id, { include: ["Keyword"] });
+  const keywords = user.keywords;
+  return res.status(200).json({
+    message: "keywords by user id",
+    data: keywords,
+  });
 };
 
 module.exports = {
