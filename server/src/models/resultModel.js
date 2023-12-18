@@ -13,6 +13,6 @@ Result.init(
   { sequelize, modelName: "result" }
 );
 
-// Result.sync({ force: true });
+Result.sync({ force: true });
 
 module.exports = Result;
