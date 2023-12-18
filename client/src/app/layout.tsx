@@ -3,6 +3,10 @@ import { Inter } from 'next/font/google'
 import clsx from 'clsx'
 import './globals.css'
 
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { UserProvider } from '@/contexts/UserContext'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -18,7 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full bg-white">
       <body className={clsx('h-full', inter.className, 'bg-white')}>
-        {children}
+        <UserProvider>
+          {children}
+          <ToastContainer />
+        </UserProvider>
       </body>
     </html>
   )
