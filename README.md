@@ -24,7 +24,7 @@ Welcome to the Web Scraping Application! This application allows you to perform 
    - brew install rabbitmq
 
 2. **Start RabbitMQ:**
-   - brew start services rabbitmq
+   - brew services start rabbitmq
 
 ### Clone the Project
 
