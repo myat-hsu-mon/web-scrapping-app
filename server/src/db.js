@@ -1,19 +1,18 @@
 const { Sequelize } = require("sequelize");
+require("dotenv").config();
 
 const username = process.env.POSTGRES_USERNAME;
 const password = process.env.POSTGRES_PASSWORD;
-
-console.log({ username, password });
-// const sequelize = new Sequelize(
-//   `postgres://myat:postgres@localhost:5432/webscraping`
-// );
+const database = process.env.POSTGRES_DB;
+const host = process.env.DATABASE_HOST;
+const dialect = process.env.DATABASE_TYPE;
 
 const sequelize = new Sequelize({
-  database: "webscraping",
-  username: "myat",
-  password: "postgres",
-  host: "localhost",
-  dialect: "postgres",
+  database,
+  username,
+  password,
+  host,
+  dialect,
 });
 
 module.exports = sequelize;
