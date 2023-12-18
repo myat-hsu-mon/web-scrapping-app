@@ -1,8 +1,9 @@
 const Keyword = require("../models/keywordModel");
+const Result = require("../models/resultModel");
 
 const getKeywordByIdWithResult = async (req, res) => {
   const id = parseInt(req.params.id);
-  const keyword = await Keyword.findByPk(id, { include: "Result" });
+  const keyword = await Keyword.findByPk(id);
   if (!keyword) {
     return res.status(400).json({
       message: "No keyword found",
@@ -13,7 +14,8 @@ const getKeywordByIdWithResult = async (req, res) => {
       message: "Unauthorized",
     });
   }
-
+  const result = await Result.findOne({ keywordId: id });
+  keyword.result = result;
   return res.status(200).json({
     message: "keyword detail with result",
     data: keyword,
