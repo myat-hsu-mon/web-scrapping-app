@@ -1,10 +1,10 @@
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 import request from '../config/request'
 import { setAuthorizationHeader } from '../helper/setAuthorizationHeader'
 import { SignUpProps, UserProps } from '@/interfaces/user'
-import { useRouter } from 'next/navigation'
-import useSessionStorage from './useSessionStorage'
 
 interface useSignUpResult {
   signUp: (signUpData: Omit<SignUpProps, 'confirmPassword'>) => Promise<void>
@@ -20,8 +20,6 @@ const useSignUp = (): useSignUpResult => {
   const [error, setError] = useState<string | null>(null)
   const [user, setUser] = useState<UserProps | null>(null)
 
-  const [, setSessionStorage] = useSessionStorage('user')
-
   const signUp = async (signUpData: Omit<SignUpProps, 'confirmPassword'>) => {
     try {
       setLoading(true)
@@ -29,9 +27,9 @@ const useSignUp = (): useSignUpResult => {
       setUser(data.data.user)
       setAuthorizationHeader(data.data.token)
       sessionStorage.setItem('user', data.data)
-      setSessionStorage(data.data)
       router.replace('/')
     } catch (error: any) {
+      toast(error)
       setError(error)
     } finally {
       setLoading(false)
