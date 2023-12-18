@@ -1,6 +1,8 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../db");
 
+const Keyword = require("./keywordModel");
+
 class User extends Model {}
 User.init(
   {
@@ -10,5 +12,8 @@ User.init(
   },
   { sequelize, modelName: "user" }
 );
+
+User.sync({ force: true });
+User.hasMany(Keyword);
 
 module.exports = User;
