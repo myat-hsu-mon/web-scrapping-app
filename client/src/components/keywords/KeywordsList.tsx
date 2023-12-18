@@ -1,21 +1,31 @@
 'use client'
 import { useState } from 'react'
+
 import KeywordBadge from './KeywordBadge'
+import { KeywordProps } from '@/interfaces/keywords'
 
-const KeywordsList = ({ keywords }: { keywords: string[] }) => {
-  const [activeBadge, setActiveBadge] = useState(0)
+const KeywordsList = ({
+  keywords,
+  fetchKeywordDetail,
+}: {
+  keywords: KeywordProps[]
+  fetchKeywordDetail: (id: number) => Promise<void>
+}) => {
+  const [activeBadge, setActiveBadge] = useState<null | number>(null)
 
-  const handleActiveBadge = (index: number) => {
+  const handleActiveBadge = (keyword: KeywordProps, index: number) => {
     setActiveBadge(index)
+    fetchKeywordDetail(keyword.id)
   }
+
   return (
     <div className="max-h-64 overflow-y-auto rounded-md border border-gray-200 p-6">
       <ul className="flex flex-wrap gap-2">
         {keywords.map((keyword, index) => (
           <KeywordBadge
-            handleActiveBadge={() => handleActiveBadge(index)}
+            handleActiveBadge={() => handleActiveBadge(keyword, index)}
             isActive={activeBadge === index}
-            keyword={keyword}
+            keyword={keyword.name}
             key={index}
           />
         ))}
