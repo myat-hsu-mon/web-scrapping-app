@@ -57,7 +57,10 @@ const readCSV = (filePath) => {
 };
 
 const filterKeywords = (fileResult) => {
-  return fileResult.trim().split(/,|\n/);
+  return fileResult
+    .trim()
+    .split(/,|\n/)
+    .filter((str) => str);
 };
 
 module.exports = {
