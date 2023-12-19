@@ -1,5 +1,5 @@
 'use client'
-import { Dispatch, SetStateAction } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-toastify'
 
 import useFileUpload from '@/hooks/useFileUpload'
@@ -12,15 +12,23 @@ const FileUpload = ({
 }) => {
   const { uploadFile } = useFileUpload({ setKeywords })
 
-  const handleFileChange = async (e: any) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     try {
-      e.preventDefault()
       const formData = new FormData()
-      formData.append('csv', e.target.files[0])
-      uploadFile(formData)
-    } catch (error: any) {
-      toast(error?.message)
-      console.error('File upload failed:', error)
+      const files = e.target.files
+      if (files?.length) {
+        formData.append('csv', files[0])
+        uploadFile(formData)
+        if ((e.target as HTMLInputElement).value !== '') {
+          (e.target as HTMLInputElement).value = ''
+        }
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast(error.message)
+      } else {
+        toast('An unknown error occurred')
+      }
     }
   }
 
@@ -35,9 +43,7 @@ const FileUpload = ({
           id="file"
           accept=".csv"
           className="hidden appearance-none rounded-t-md border border-dashed bg-gray-200 px-3 py-2 leading-tight text-gray-700 focus:outline-none"
-          onChange={(e) => {
-            handleFileChange(e)
-          }}
+          onChange={handleFileChange}
         />
         <div className="flex items-center justify-center">
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-cyan-100">
