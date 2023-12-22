@@ -8,7 +8,8 @@
     "dev": "nodemon src/app.js",
     "db:create": "npx sequelize-cli db:create",
     "db:drop": "npx sequelize-cli db:drop",
-    "db:migrate": "npx sequelize-cli db:migrate"
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "test": "mocha tests/**/*.js"
   },
   "keywords": [],
   "author": "",
@@ -32,8 +33,10 @@
   },
   "devDependencies": {
     "@types/pg": "^8.10.9",
+    "chai": "^4.3.10",
     "nodemon": "^3.0.2",
     "sequelize-cli": "^6.6.2",
+    "sinon": "^17.0.1",
     "typescript": "^5.3.3"
   }
 }
