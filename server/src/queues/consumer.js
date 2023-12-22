@@ -1,6 +1,6 @@
 const { connect } = require("./connection");
 const { scrapeWebData } = require("../web-scrape/scrape");
-const { saveResult } = require("../controllers/resultController");
+const { createResult } = require("../controllers/resultController");
 
 async function consumeQueue() {
   const { channel } = await connect();
@@ -15,7 +15,7 @@ async function consumeQueue() {
       const { name, id } = JSON.parse(message.content.toString());
       const data = await scrapeWebData(name);
       console.log(`Received message: ${message.content.toString()}`);
-      saveResult({ keywordId: id, ...data });
+      createResult({ keywordId: id, ...data });
       channel.ack(message);
     }
   });

@@ -1,10 +1,10 @@
-const Result = require("../models/resultModel");
+const { Result } = require("../../models");
 
-const saveResult = async (result) => {
+const createResult = async (result) => {
   const newResult = await Result.create(result);
   return newResult;
 };
 
 module.exports = {
-  saveResult,
+  createResult,
 };
