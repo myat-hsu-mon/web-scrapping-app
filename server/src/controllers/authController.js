@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
-const validator = require("email-validator");
 
 const { getUserByEmail, getUserById, createUser } = require("./userController");
 
@@ -12,11 +11,6 @@ const jwtExpiresIn = process.env.JWT_EXPIRES_IN;
 const signUp = async (req, res) => {
   const { name, email, password } = req.body;
   try {
-    if (!isEmailValid(email)) {
-      return res.status(400).json({
-        message: "Invalid Email",
-      });
-    }
     const user = await getUserByEmail(email);
     if (user) {
       return res.status(400).json({
@@ -51,11 +45,6 @@ const signIn = async (req, res) => {
     });
   }
   try {
-    if (!isEmailValid(email)) {
-      return res.status(400).json({
-        message: "Invalid Email",
-      });
-    }
     const user = await getUserByEmail(email);
     if (!user) {
       return res.status(400).json({
@@ -133,10 +122,6 @@ const verifyToken = async (token, jwtSecretKey) => {
   } catch (error) {
     return error;
   }
-};
-
-const isEmailValid = (email) => {
-  return validator.validate(email);
 };
 
 module.exports = {
