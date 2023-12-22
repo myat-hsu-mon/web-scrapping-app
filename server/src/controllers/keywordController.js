@@ -1,9 +1,11 @@
-const Keyword = require("../models/keywordModel");
-const Result = require("../models/resultModel");
+const { Keyword, Result } = require("../../models");
 
 const getKeywordByIdWithResult = async (req, res) => {
   const id = parseInt(req.params.id);
-  const keyword = await Keyword.findByPk(id);
+  const keyword = await Keyword.findByPk(id, {
+    include: [{ model: Result, as: "result" }],
+  });
+
   if (!keyword) {
     return res.status(400).json({
       message: "No keyword found",
@@ -14,15 +16,11 @@ const getKeywordByIdWithResult = async (req, res) => {
       message: "Unauthorized",
     });
   }
-  let result = await Result.findOne({ where: { keywordId: id } });
-  const parsedKeyword = JSON.parse(JSON.stringify(keyword));
   return res.status(200).json({
     message: "keyword detail with result",
-    data: { result, ...parsedKeyword },
+    data: keyword,
   });
 };
-
-const getKeywordByUserId = async (userId) => {};
 
 const createKeyword = async (data) => {
   const newKeyword = await Keyword.create(data);
@@ -30,7 +28,6 @@ const createKeyword = async (data) => {
 };
 
 module.exports = {
-  getKeywordByUserId,
   getKeywordByIdWithResult,
   createKeyword,
 };
