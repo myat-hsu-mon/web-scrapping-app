@@ -3,7 +3,7 @@ const cheerio = require("cheerio");
 
 scrapeWebData = async (keyword) => {
   const url = `https://google.com/search?q=${keyword}`;
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
 
   try {
