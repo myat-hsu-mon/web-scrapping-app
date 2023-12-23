@@ -1,9 +1,11 @@
 export default function HTMLRender({ htmlCode }: { htmlCode: string }) {
   return (
-    <div
+    <iframe
       data-testid="rendered-html"
-      dangerouslySetInnerHTML={{ __html: htmlCode }}
-      className="rounded-md border border-gray-200 p-6"
-    ></div>
+      width="100%"
+      height="3000"
+      srcDoc={htmlCode}
+      className="rounded-md border border-gray-200"
+    />
   )
 }
