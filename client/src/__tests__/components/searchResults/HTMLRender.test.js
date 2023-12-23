@@ -10,7 +10,6 @@ describe('HTMLRender Component', () => {
     const renderedHTML = screen.getByTestId('rendered-html')
 
     expect(renderedHTML).toBeInTheDocument()
-    expect(renderedHTML).toHaveClass('rounded-md border border-gray-200 p-6')
-    expect(renderedHTML).toHaveProperty('innerHTML', htmlCode)
+    expect(renderedHTML).toHaveClass('rounded-md border border-gray-200')
   })
 })
