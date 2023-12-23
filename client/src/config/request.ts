@@ -15,6 +15,9 @@ request.interceptors.response.use(
 
     if (isAxiosError(error)) {
       if (error.response) {
+        if (error.response.status === 401) {
+          sessionStorage.clear()
+        }
         errorMessage = `${error.response.data.message}`
       } else if (error.request) {
         errorMessage = `${error.request.data.message}`
