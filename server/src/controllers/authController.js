@@ -103,13 +103,18 @@ const protect = async (req, res, next) => {
     const { id } = decoded;
     const user = await getUserById(id);
     if (!user) {
-      return res.status(400).json({
+      return res.status(401).json({
         message: "No user exists with this token!",
       });
     }
     req.user = user;
     next();
   } catch (error) {
+    if (error.message === "jwt expired") {
+      return res.status(401).json({
+        message: "Token expired",
+      });
+    }
     return res.status(error?.status || 500).json({
       message: error.message,
     });
@@ -117,11 +122,7 @@ const protect = async (req, res, next) => {
 };
 
 const verifyToken = async (token, jwtSecretKey) => {
-  try {
-    return await promisify(jwt.verify)(token, jwtSecretKey);
-  } catch (error) {
-    return error;
-  }
+  return await promisify(jwt.verify)(token, jwtSecretKey);
 };
 
 module.exports = {
