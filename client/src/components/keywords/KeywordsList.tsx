@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import KeywordBadge from './KeywordBadge'
 import { KeywordProps } from '@/interfaces/keywords'
@@ -17,6 +17,10 @@ const KeywordsList = ({
     setActiveBadge(keyword)
     fetchKeywordDetail(keyword.id)
   }
+
+  useEffect(() => {
+    fetchKeywordDetail(activeBadge.id)
+  }, [])
 
   return (
     <div className="max-h-64 overflow-y-auto rounded-md border border-gray-200 p-6">
