@@ -32,6 +32,7 @@ const useSignIn = (): useSignInResult => {
       setUser(user)
       setAuthorizationHeader(token)
       setUserData(user, token)
+      sessionStorage.setItem('user', JSON.stringify({ user, token }))
       router.replace('/')
     } catch (error: any) {
       toast(error)

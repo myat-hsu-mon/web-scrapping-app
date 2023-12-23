@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import request from '../config/request'
 import { setAuthorizationHeader } from '../helper/setAuthorizationHeader'
 import { SignUpProps, UserProps } from '@/interfaces/user'
+import { useUser } from '@/contexts/UserContext'
 
 interface useSignUpResult {
   signUp: (signUpData: Omit<SignUpProps, 'confirmPassword'>) => Promise<void>
@@ -15,6 +16,7 @@ interface useSignUpResult {
 
 const useSignUp = (): useSignUpResult => {
   const router = useRouter()
+  const { setUserData } = useUser()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -24,9 +26,12 @@ const useSignUp = (): useSignUpResult => {
     try {
       setLoading(true)
       const { data } = await request.post('/auths/sign-up', signUpData)
-      setUser(data.data.user)
-      setAuthorizationHeader(data.data.token)
-      sessionStorage.setItem('user', data.data)
+      const user = data.data.user
+      const token = data.data.token
+      setUser(user)
+      setAuthorizationHeader(token)
+      setUserData(user, token)
+      sessionStorage.setItem('user', JSON.stringify({ user, token }))
       router.replace('/')
     } catch (error: any) {
       toast(error)
