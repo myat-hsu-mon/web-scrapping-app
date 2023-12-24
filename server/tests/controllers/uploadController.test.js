@@ -44,11 +44,21 @@ describe("uploadFile", () => {
     sinon.assert.calledWith(res.json, { message: "No file found" });
   });
 
+  it("should return 400 if file type is not CSV", async () => {
+    req.file.mimetype = "image/png";
+
+    await uploadFile(req, res, next);
+
+    sinon.assert.calledWith(res.status, 400);
+    sinon.assert.calledWith(res.json, { message: "Invalid file type" });
+  });
+
   it("should return 400 if keywords are more than 100", async () => {
     //csv file with more than 100 keywords
     readFileSyncStub.returns(
       "'3zX','Rea','Nex','Tav','Jav','Web','FrE','Bac','Noe','Exp','Mon','GrQ','RES','Res','UIX','Sin','Sta','Com','Cod','Ser','Pro','Rea','Nex','Tai','Jav','Web','Fro','Bac','Nod','Exp','Mon','Gra','RES','Res','UIX','Sin','Sta','Com','Cod','Ser','Pro','Rea','Nex','Tai','Jav','Web','Fro','Bac','Nod','Exp','Mon','Gra','RES','Res','UIX','Sin','Sta','Com','Cod','Ser','Pro','Rea','Nex','Tai','Jav','Web','Fro','Bac','Nod','Exp','Mon','Gra','RES','Res','UIX','Sin','Sta','Com','Cod','Ser','Pro','Rea','Nex','Tai','Jav','Web','Fro','Bac','Nod','Exp','Mon','Gra','RES','Res','UIX','Sin','Sta','Com','Cod','Ser','Pro','Rea','Nex','Tai','Jav','Web','Fro','Bac','Nod','Exp','Mon','Gra','RES','Res','UIX','Sin','Sta','Com','Cod','Ser','Pro','Rea','Nex','Tai','Jav','Web','Fro','Bac','Nod','Exp','Mon','Gra','RES','Res','UIX','Sin','Sta','Com','Cod','Ser','Pro','Rea','Nex','Tai','Jav','Web','Fro','Bac','Nod','Exp','Mon','Gra','RES','Res','UIX','Sin','Sta','Com','Cod','Ser','Pro','Rea','Nex','Tai','Jav','Web','Fro','Bac','Nod','Exp','Mon','Gra','RES','Res','UIX','Sin','Sta','Com','Cod','Ser','Pro'"
     );
+    req.file.mimetype = "text/csv";
 
     await uploadFile(req, res, next);
 
@@ -58,7 +68,8 @@ describe("uploadFile", () => {
 
   it("should upload file successfully", async () => {
     //valid csv file is provided
-    readFileSyncStub.returns("keyword1,keyword2,keyword3");
+    readFileSyncStub.returns("JavaScript,TypeScript,Python");
+    req.file.mimetype = "text/csv";
 
     await uploadFile(req, res, next);
     sinon.assert.calledWith(res.status, 201);
