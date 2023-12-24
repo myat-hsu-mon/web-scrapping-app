@@ -11,11 +11,9 @@ export default function SignInPage() {
   const {
     register,
     handleSubmit,
-    watch,
-    setError,
     formState: { errors },
   } = useForm<SignInProps>()
-  const { signIn, user, loading, error } = useSignIn()
+  const { signIn, loading } = useSignIn()
 
   const onSubmit: SubmitHandler<SignInProps> = async (data) => {
     signIn(data)
@@ -82,7 +80,7 @@ export default function SignInPage() {
             </div>
 
             <div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" isLoading={loading}>
                 Sign In
               </Button>
             </div>

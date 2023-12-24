@@ -6,9 +6,6 @@ export interface KeywordProps {
   userId: number
 }
 
-export interface KeywordPropsWithResult {
+export interface KeywordPropsWithResult extends KeywordProps {
   result: SearchResultProps | null
-  id: number
-  name: string
-  userId: number
 }

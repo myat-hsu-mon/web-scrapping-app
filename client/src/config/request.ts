@@ -1,5 +1,6 @@
-import axios, { isAxiosError } from 'axios'
-const request = axios.create({
+import axios, { AxiosInstance, AxiosResponse, isAxiosError } from 'axios'
+
+const request: AxiosInstance = axios.create({
   baseURL: 'http://localhost:4000/api/v1/',
   headers: {
     'Content-Type': 'application/json',
@@ -7,7 +8,7 @@ const request = axios.create({
 })
 
 request.interceptors.response.use(
-  function (response) {
+  function (response: AxiosResponse) {
     return response
   },
   function (error) {
@@ -17,6 +18,7 @@ request.interceptors.response.use(
       if (error.response) {
         if (error.response.status === 401) {
           sessionStorage.clear()
+          window.location.href = '/sign-in'
         }
         errorMessage = `${error.response.data.message}`
       } else if (error.request) {

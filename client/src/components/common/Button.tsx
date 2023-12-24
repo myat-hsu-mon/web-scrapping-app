@@ -10,6 +10,7 @@ const variantStyles = {
 
 type ButtonProps = {
   variant?: keyof typeof variantStyles
+  isLoading?: boolean
 } & (
   | (React.ComponentPropsWithoutRef<'button'> & { href?: undefined })
   | React.ComponentPropsWithoutRef<typeof Link>
@@ -17,6 +18,7 @@ type ButtonProps = {
 
 export function Button({
   variant = 'primary',
+  isLoading = false,
   className,
   ...props
 }: ButtonProps) {
@@ -27,7 +29,7 @@ export function Button({
   )
 
   return typeof props.href === 'undefined' ? (
-    <button className={className} {...props} />
+    <button className={className} {...props} disabled={isLoading} />
   ) : (
     <Link className={className} {...props} />
   )

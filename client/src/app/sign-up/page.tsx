@@ -1,8 +1,8 @@
 'use client'
-
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { Button } from '@/components/common/Button'
 import Link from 'next/link'
+import { useForm, SubmitHandler } from 'react-hook-form'
+
+import { Button } from '@/components/common/Button'
 import ErrorMessage from '@/components/common/ErrorMessage'
 import { SignUpProps } from '@/interfaces/user'
 import useSignUp from '@/hooks/useSignUp'
@@ -12,10 +12,9 @@ export default function SignUpPage() {
     register,
     handleSubmit,
     watch,
-    setError,
     formState: { errors },
   } = useForm<SignUpProps>()
-  const { signUp, user, loading, error } = useSignUp()
+  const { signUp, loading } = useSignUp()
 
   const onSubmit: SubmitHandler<SignUpProps> = async (data) => {
     const { name, email, password } = data
@@ -127,7 +126,7 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" isLoading={loading}>
                 Sign Up
               </Button>
             </div>
