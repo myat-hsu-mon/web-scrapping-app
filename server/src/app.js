@@ -31,6 +31,12 @@ app.use("/api/v1/users", protect, userRoutes);
 app.use("/api/v1/keywords", protect, keywordRoutes);
 app.use("/api/v1/uploads", protect, uploadRoutes);
 
+app.use("*", (req, res) => {
+  return res.status(404).json({
+    message: "404 Not found",
+  });
+});
+
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });
