@@ -1,17 +1,24 @@
 const { connect } = require("./connection");
 
-async function publishToQueue(message) {
-  const { connection, channel } = await connect();
-  const queueName = "keywordsQueue";
+async function publishToQueue(message, delay) {
+  try {
+    const { connection, channel } = await connect();
+    const exchangeName = "keywordsExchange";
 
-  await channel.assertQueue(queueName, { durable: false });
-  channel.sendToQueue(queueName, Buffer.from(message));
+    // Publish the message with the delay header
+    await channel.publish(exchangeName, "", Buffer.from(message), {
+      headers: { "x-delay": delay },
+    });
+    console.log(`Sent: ${message} with a delay of ${delay} ms`);
 
-  console.log(`Message '${message}' sent to queue '${queueName}'`);
-
-  setTimeout(() => {
-    connection.close();
-  }, 1000);
+    setTimeout(() => {
+      connection.close();
+    }, 1000);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
-module.exports = { publishToQueue };
+module.exports = {
+  publishToQueue,
+};

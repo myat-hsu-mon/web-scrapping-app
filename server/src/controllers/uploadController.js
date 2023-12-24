@@ -5,18 +5,27 @@ const { createKeyword } = require("./keywordController");
 const { publishToQueue } = require("../queues/publisher");
 
 const uploadFile = async (req, res) => {
-  if (!req.file) {
+  const file = req.file;
+  if (!file) {
     return res.status(400).json({ message: "No file found" });
   }
-  const filePath = req.file.path;
+  if (!validateFile(file)) {
+    return res.status(400).json({ message: "Invalid file type" });
+  }
+  const { path: filePath } = file;
   const fileResult = readCSV(filePath);
-  const keywords = filterKeywords(fileResult);
+  const keywords = parseAndFilterKeywords(fileResult);
+
   if (keywords.length > 100) {
     return res.status(400).json({
       message: "keywords is more than 100",
     });
   }
-  const messageKeywords = await saveKeyword(req.user, keywords);
+  const newKeywords = await saveKeyword(req.user, keywords);
+  const messageKeywords = newKeywords.map((keyword) => ({
+    id: keyword.id,
+    name: keyword.name,
+  }));
   pushMessageToQueue(messageKeywords);
 
   return res.status(201).json({
@@ -25,28 +34,42 @@ const uploadFile = async (req, res) => {
   });
 };
 
+//checks if the file type is csv or not
+const validateFile = (file) => {
+  const { mimetype } = file;
+  const allowedFileType = "text/csv";
+  if (mimetype !== allowedFileType) {
+    return false;
+  }
+  return true;
+};
+
+/* push the messages to queue with the specified message content
+and set a delay between each message */
 const pushMessageToQueue = (messages) => {
-  for (const msg of messages) {
-    publishToQueue(JSON.stringify(msg));
+  let delayInMilliseconds = 0;
+  for (const message of messages) {
+    delayInMilliseconds += 500;
+    publishToQueue(JSON.stringify(message), delayInMilliseconds);
   }
 };
 
 const saveKeyword = async (user, keywords) => {
-  const messageKeywords = [];
+  const newKeywords = await createKeywords(user, keywords);
+  return newKeywords;
+};
+
+// create all keywords in the file into the database
+const createKeywords = async (user, keywords) => {
   const newKeywords = await Promise.all(
     keywords.map((keyword) => {
       return createKeyword({ userId: user.id, name: keyword });
     })
   );
-  for (const keyword of newKeywords) {
-    messageKeywords.push({
-      id: keyword.id,
-      name: keyword.name,
-    });
-  }
-  return messageKeywords;
+  return newKeywords;
 };
 
+// Reads and returns the content of a CSV file synchronously
 const readCSV = (filePath) => {
   const result = fs.readFileSync(filePath, "utf-8", (error) => {
     if (error) {
@@ -56,7 +79,8 @@ const readCSV = (filePath) => {
   return result;
 };
 
-const filterKeywords = (fileResult) => {
+// filter comma separated keywords
+const parseAndFilterKeywords = (fileResult) => {
   return fileResult
     .trim()
     .split(/,|\n/)
