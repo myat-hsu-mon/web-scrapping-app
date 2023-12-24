@@ -25,15 +25,15 @@ const FileUpload = ({
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        toast(error.message)
+        toast.error(error.message)
       } else {
-        toast('An unknown error occurred')
+        toast.error('An unknown error occurred')
       }
     }
   }
 
   return (
-    <form className="mx-auto flex max-w-3xl flex-col items-center pt-9">
+    <form className="mx-auto flex max-w-3xl flex-col items-center">
       <label
         htmlFor="file"
         className="cursor-pointer rounded-md border border-dashed border-gray-200 px-36 py-24"

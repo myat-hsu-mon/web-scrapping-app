@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 
-import request from '../config/request'
-import { toast } from 'react-toastify'
 import { KeywordProps } from '@/interfaces/keywords'
+import { toast } from 'react-toastify'
+import request from '../config/request'
 
 interface FileUploadResult {
   uploadFile: (formData: FormData) => Promise<void>
@@ -28,7 +28,7 @@ const useFileUpload = ({
       })
       setKeywords((prev) => [...response.data.data, ...prev])
     } catch (error: any) {
-      toast(error)
+      toast.error(error)
       setError(error)
     } finally {
       setLoading(false)

@@ -3,15 +3,11 @@ export interface UserProps {
   email: string
   token: string
 }
-
-export interface SignUpProps {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-}
-
 export interface SignInProps {
   email: string
   password: string
+}
+export interface SignUpProps extends SignInProps {
+  name: string
+  confirmPassword: string
 }
