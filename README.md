@@ -31,6 +31,7 @@ Welcome to the Web Scraping Application! This application allows you to perform 
 2. **Start RabbitMQ:**
 
    - brew services start rabbitmq
+   - export PATH=$PATH:/usr/local/sbin (If you are using Intel mac OS, please add inside .zshrc or .bashrc)
 
 3. **Download rabbitmq-delayed-message-exchange plugin:**
 
@@ -52,7 +53,9 @@ Welcome to the Web Scraping Application! This application allows you to perform 
 
    - go to your terminal
    - cd ~/Downloads
-   - cp rabbitmq_delayed_message_exchange-3.12.0.ez /opt/homebrew/opt/rabbitmq/plugins
+   - cp rabbitmq_delayed_message_exchange-3.12.0.ez /usr/local/opt/rabbitmq/plugins **(for Intel mac OS)**
+   - **OR**
+   - cp rabbitmq_delayed_message_exchange-3.12.0.ez /opt/homebrew/opt/rabbitmq/plugins **(for Apple silicon mac OS)**
 
 5. **Enabling the Plugin:**
    Run the following command:
