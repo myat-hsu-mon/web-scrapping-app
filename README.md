@@ -149,5 +149,11 @@ Welcome to the Web Scraping Application! This application allows you to perform 
      ```bash
      node src/queues/consumer.js
      ```
+     
+7. **Test Backend Server (Optional):**
+
+   ```bash
+   npm run test
+   ```
 
 Congratulations! The Web Scraping Application is now up and running. Explore the client and server components for web scraping functionalities.
