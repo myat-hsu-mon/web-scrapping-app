@@ -24,7 +24,7 @@ module.exports = {
         type: DataTypes.STRING,
       },
       htmlCode: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
       },
       createdAt: {
         allowNull: false,

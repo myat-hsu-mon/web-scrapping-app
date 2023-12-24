@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       htmlCode: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
       },
     },
     {
